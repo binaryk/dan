@@ -54,16 +54,14 @@
                     </div><!--form-group-->
 
                     <div class="form-group">
-                        {{ Form::label('password_confirmation', trans('validation.attributes.frontend.photo'), ['class' => 'col-md-4 control-label']) }}
-                        <div class="col-md-6">
-                           {{ Form::file('photo_path') }}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            <div id="my_camera"></div><br>
-                            <input type=button class="btn btn-xs btn-success"  value="Test Image" id="take_snapshot" style="display: none;">
+                            <video autoplay></video>
+                            <img alt="" id="preview">
+                            <canvas style="display: none;"></canvas>
+                            <button type="button" id="take-photo" class="btn btn-sm btn-success">
+                                Photo
+                            </button>
+                            <input type="hidden" id="photo_path" name="photo_path">
                         </div>
                     </div>
 
@@ -98,69 +96,16 @@
     @if (config('access.captcha.registration'))
         {!! Captcha::script() !!}
     @endif
-    <script src="{!! asset('js/webcam.js') !!}"></script>
-    <script>
-        $(document).ready(function() {
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#test_mail').on('click',function(e){
-                var mail = $('[name=email]').val();
-                var that = this;
-                $.get('users/check-mail/'+mail, function(data){
-                    if(data['exists']){
-
-                        Webcam.set({
-                            width: 330,
-                            height: 250,
-                            image_format: 'jpeg',
-                            jpeg_quality: 90
-                        });
-                        Webcam.attach( '#my_camera' );
-                        $('#take_snapshot').css("display", "block");
-
-                        $(that).closest('.form-group').removeClass('has-warning').find('.help-block').remove();
-                        $(that).closest('.form-group').addClass('has-success').append('<p class=help-block>Success!</p>');
-                        var base =  '{!! asset("image/") !!}';
-                        $('#exists_image').attr('src',base +"/"+ data['exists']['image']+".png").parent().show();
-                    }else{
-                        $('#exists_image').attr('src','').parent().hide();
-                        $(that).closest('.form-group').addClass('has-warning').append('<p class=help-block> User not exist!</p>');
-                    }
-                })
-            });
-
-            $('#take_snapshot').on('click',function(e){
-                Webcam.snap( function(data_uri) {
-                    $.ajax({
-                        url: "{{ url('/check-image')}} ",
-                        type: "post",
-                        data: {'email':$('[name=email]').val(), 'image' : data_uri},
-                        success: function(data){
-                            var userImage = "data:image/jpeg;base64," + data.user_image;
-                            var currentImage = "data:image/jpeg;base64," + data.this_image;
-
-                            var api = resemble(userImage).compareTo(currentImage).onComplete(function(data){
-                                $('#match-percentage').css("display","block");
-                                $('#match-percentage .progress-bar').css("width", 100 - data.misMatchPercentage + '%');
-                                if (parseInt(data.misMatchPercentage) < parseInt(85)) {
-                                    toastr.success((100 - data.misMatchPercentage), 'Match percentage:');
-                                    $('#show_login').css("display", "block");
-                                } else {
-                                    toastr.warning('Try Again or Register Again!');
-                                    toastr.error((data.misMatchPercentage),'Difference percentage too big:');
-                                    $('#show_login').css("display", "none");
-                                }
-                            });
-
-                        }
-                    });
-                });
-            });
-        })
-
-    </script>
+    <script src="{!! asset('js/Web.js') !!}"></script>
+@endsection
+@section('before-scripts')
+@endsection
+@section('after-styles')
+    <style>
+        video{
+            width: 300px;
+            height: 250px;
+        }
+    </style>
 @endsection

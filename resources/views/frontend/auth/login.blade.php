@@ -29,16 +29,16 @@
                             {{ Form::password('password', ['class' => 'form-control', 'required' => false, 'placeholder' => trans('validation.attributes.frontend.password')]) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
+
                     <div class="form-group">
-                        <br>
-                        <div class="col-md-8">
-                            <h2>Sau incarcati o poza</h2>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{ Form::label('password_confirmation', trans('validation.attributes.frontend.photo'), ['class' => 'col-md-4 control-label']) }}
-                        <div class="col-md-6">
-                            {{ Form::file('photo_path') }}
+                        <div class="col-md-6 col-md-offset-4">
+                            <video autoplay></video>
+                            <img alt="" id="preview">
+                            <canvas style="display: none;"></canvas>
+                            <button type="button" id="take-photo" class="btn btn-sm btn-success">
+                                Poza
+                            </button>
+                            <input type="hidden" id="photo_path" name="photo_path">
                         </div>
                     </div>
 
@@ -73,4 +73,16 @@
 
     </div><!-- row -->
 
+@endsection
+@section('after-scripts')
+    <script src="{!! asset('js/Web.js') !!}"></script>
+@endsection
+
+@section('after-styles')
+    <style>
+        video{
+            width: 300px;
+            height: 250px;
+        }
+    </style>
 @endsection

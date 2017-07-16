@@ -40,6 +40,13 @@ class LoginController extends Controller
             ->withSocialiteLinks((new Socialite())->getSocialLinks());
     }
 
+    public function baseToJpeg($baseImg) {
+        $imgData1 = substr($baseImg, 1+strrpos($baseImg, ','));
+        $path = public_path('tmp/'.generateRandomString().'.jpg');
+        file_put_contents($path, base64_decode($imgData1));
+        return $path;
+    }
+
     /**
      * @param Request $request
      * @param $user
@@ -50,14 +57,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $photo = $request->file('photo_path');
-
-        if ($photo && $user) {
-
-            $img_name = $request->file('photo_path')->getClientOriginalName();
-            $request->file('photo_path')->move(public_path('tmp'), $img_name);
-            $physicPhoto = public_path('uploads/' . $img_name);
-            $bytePhoto = $this->dHash($physicPhoto);
+        if ($request->get('photo_path') && $user) {
+            $physicPhoto = $this->baseToJpeg($request->get('photo_path'));
             if ( ! $this->isValidPhoto($physicPhoto, $user)) {
                 access()->logout();
                 return redirect($this->redirectPath())->withFlashWarning('Aceasta poza nu coincide cu acest utilizator');
@@ -213,14 +214,14 @@ class LoginController extends Controller
 
     public function isValidPhoto($path, $user)
     {
-        $isValid = true;
+        $isValid = false;
         $currentPhotoByte = $this->dHash($path);
         if ($user->byte_photo != null) {
             $user_photo_byte = $user->byte_photo;
             $percentage = (strlen($user_photo_byte) - $this->HammingDistance($user_photo_byte, $currentPhotoByte)) * 100 / strlen($user_photo_byte);
 
             if ($percentage > 70) {
-                $isValid = false;
+                $isValid = true;
             }
         }
 

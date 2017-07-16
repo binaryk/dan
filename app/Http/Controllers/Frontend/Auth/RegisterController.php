@@ -44,6 +44,13 @@ class RegisterController extends Controller
         return view('frontend.auth.register');
     }
 
+    public function baseToJpeg($baseImg) {
+        $imgData1 = substr($baseImg, 1+strrpos($baseImg, ','));
+        $path = public_path('uploads/'.generateRandomString().'.jpg');
+        file_put_contents($path, base64_decode($imgData1));
+        return $path;
+    }
+
     /**
      * @param RegisterRequest $request
      *
@@ -51,11 +58,11 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $img_name = $request->file('photo_path')->getClientOriginalName();
-        $request->file('photo_path')->move(public_path('uploads'), $img_name);
+
+        $path = $this->baseToJpeg($request->get('photo_path'));
         if (config('access.users.confirm_email') || config('access.users.requires_approval')) {
             $data = $request->only('first_name', 'last_name', 'email', 'password');
-            $data['photo_path'] = public_path('uploads/' . $img_name);
+            $data['photo_path'] = $path;
             $user = $this->user->create($data);
             event(new UserRegistered($user));
 
@@ -66,7 +73,7 @@ class RegisterController extends Controller
             );
         } else {
             $data = $request->only('first_name', 'last_name', 'email', 'password');
-            $data['photo_path'] = public_path('uploads/' . $img_name);
+            $data['photo_path'] = $path;
             /*convert photo to bytes*/
             $data['byte_photo'] = $this->dHash($data['photo_path']);
             if(! $this->isValidPhoto($data['photo_path'])) {
@@ -140,8 +147,9 @@ class RegisterController extends Controller
     {
         $a1 = str_split($bin1);
         $a2 = str_split($bin2);
+        $len = count($a1) > count($a2) ? count($a2) : count($a1);
         $dh = 0;
-        for ($i = 0; $i < count($a1); $i++)
+        for ($i = 0; $i < $len; $i++)
             if ($a1[$i] != $a2[$i]) $dh++;
         return $dh;
     }

@@ -32,6 +32,7 @@
                 'csrfToken' => csrf_token(),
             ]); ?>
         </script>
+        @yield('before-scripts')
     </head>
     <body id="app-layout">
         <div id="app">

@@ -14,23 +14,23 @@ return [
     */
 
     'general' => [
-        'home'   => 'Home',
-        'logout' => 'Logout',
+        'home'   => 'Acasa',
+        'logout' => 'Iesire',
     ],
 
     'frontend' => [
         'contact' => 'Contact',
-        'dashboard' => 'Dashboard',
+        'dashboard' => 'Pagina principala',
         'login'     => 'Login',
-        'macros'    => 'Macros',
-        'register'  => 'Register',
+        'macros'    => 'Mactrouri',
+        'register'  => 'Inregistrare',
 
         'user' => [
-            'account'         => 'My Account',
-            'administration'  => 'Administration',
-            'change_password' => 'Change Password',
-            'my_information'  => 'My Information',
-            'profile'         => 'Profile',
+            'account'         => 'Contul meu',
+            'administration'  => 'Administrare',
+            'change_password' => 'Schimbare parola',
+            'my_information'  => 'Informatii despre mine',
+            'profile'         => 'Profil',
         ],
     ],
 ];

@@ -107,12 +107,12 @@ return [
     'frontend' => [
 
         'auth' => [
-            'login_box_title'    => 'Login',
-            'login_button'       => 'Login',
-            'login_with'         => 'Login with :social_media',
-            'register_box_title' => 'Register',
-            'register_button'    => 'Register',
-            'remember_me'        => 'Remember Me',
+            'login_box_title'    => 'Autentificare',
+            'login_button'       => 'Autentificare',
+            'login_with'         => 'Autentificare with :social_media',
+            'register_box_title' => 'Inregistrare',
+            'register_button'    => 'Inregistrare',
+            'remember_me'        => 'Retine',
         ],
 
         'contact' => [
@@ -121,9 +121,9 @@ return [
         ],
 
         'passwords' => [
-            'forgot_password'                 => 'Forgot Your Password?',
-            'reset_password_box_title'        => 'Reset Password',
-            'reset_password_button'           => 'Reset Password',
+            'forgot_password'                 => 'Parola uitata',
+            'reset_password_box_title'        => 'Resetare parola',
+            'reset_password_button'           => 'Resetare parola',
             'send_password_reset_link_button' => 'Send Password Reset Link',
         ],
 
