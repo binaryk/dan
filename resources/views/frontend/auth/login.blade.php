@@ -24,13 +24,6 @@
                     </div><!--form-group-->
 
                     <div class="form-group">
-                        {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label']) }}
-                        <div class="col-md-6">
-                            {{ Form::password('password', ['class' => 'form-control', 'required' => false, 'placeholder' => trans('validation.attributes.frontend.password')]) }}
-                        </div><!--col-md-6-->
-                    </div><!--form-group-->
-
-                    <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <video autoplay></video>
                             <img alt="" id="preview">

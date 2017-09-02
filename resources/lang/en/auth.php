@@ -13,11 +13,11 @@ return [
     |
     */
 
-    'failed'        => 'These credentials do not match our records.',
+    'failed'        => 'Aceste credentiale nu conincid cu nici o inregistrare din baza de date.',
     'general_error' => 'You do not have access to do that.',
     'socialite'     => [
         'unacceptable' => ':provider is not an acceptable login type.',
     ],
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'throttle' => 'Prea multe incercari. Repetati incercarea in :seconds secunde.',
     'unknown'  => 'An unknown error occurred',
 ];
